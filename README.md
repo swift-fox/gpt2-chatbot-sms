@@ -4,13 +4,13 @@ This is a simple and crappy chatbot built on top of the groundbreaking OpenAI GP
 
 ## Demo
 
-Checkout [chatbot.swift-fox.com](https://chatbot.swift-fox.com), or text "hello" to 205-671-2142 to chat with it if you are in the US. It can talk like a real person for a while. But soon you'll discover the real crappiness of it. So hope you'll be amused.
+Checkout [chatbot.swift-fox.com](https://chatbot.swift-fox.com), or text "hello" to `205-671-2142` to chat with it if you are in the US.
 
-To restart a chat, refresh the page or text "/reset". In each chat, it impersonates a different character. It has 17878 personalities. A peculiar case of [DID](https://en.wikipedia.org/wiki/Dissociative_identity_disorder).
+It can talk like a real person for a while. But soon you'll discover the real crappiness of it. So hope you'll be amused. To restart a chat, refresh the page or text "/reset". In each chat, it impersonates a different character. It has 17878 personalities. A peculiar case of [DID](https://en.wikipedia.org/wiki/Dissociative_identity_disorder).
 
-![Chat with it](images/chatbot-demo-1.png)
+<img src="https://github.com/swift-fox/gpt2-chatbot-sms/raw/master/images/chatbot-demo-1.png" width="30%"/>
 
-If the website is down, text messaging won't work either. That means I've decided to stop my $15 per month investment to amuse the world.
+If the website is down, text messaging won't work either. That means I've decided to stop spending $15 a month to amuse the world.
 
 ## How it works
 
@@ -24,15 +24,15 @@ On the decoding side, it uses top-k top-p filtering. It's easier to implement an
 
 ### Training
 
-The dataset the model was retrained on was PersonaChat by Facebook. I'm using the copy processed by Hugging Face available [here](https://s3.amazonaws.com/datasets.huggingface.co/personachat/personachat_self_original.json).
+The dataset to retrain (fine-tune) the model is PersonaChat by Facebook. I'm using the [copy](https://s3.amazonaws.com/datasets.huggingface.co/personachat/personachat_self_original.json) preprocessed by Hugging Face.
 
-The code is probably the most brutal and simple one you can find to train a transformer. But it works anyway. It took 12 hours to train on a NVIDIA GTX 1080 video card from 2016 with 8 GB memory. The minuscule memory limits the batch size to 2, which made the training so slow.
+The training code is probably the most unsubtle one on earth to train a transformer. But it works anyway. It took 9 hours to train on a NVIDIA GTX 1080 video card from 2016 with 8 GB memory. The minuscule memory limits the batch size to 2, which made the training so slow.
 
 ### Deployment
 
-The model and the demo was deployed on a virtual machine in Google Cloud with 2 vCPU cores and 2 GB memory. So the inference runs on the CPU, which is fine for a demo. And 2 GB memory is the minimal to serve a small GPT-2 model. This setup can generate ~10 words per second. So it's definitely a small-scale prototype. The total cost to run it is about $15 a month including VM, domain name, and Twilio API.
+The model and the demo are deployed to a virtual machine in Google Cloud with 2 vCPU cores and 2 GB memory. So the inference runs on the CPU, which is fine for a demo. And 2 GB memory is the minimal to serve a small GPT-2 model. This setup can generate ~10 words per second. So it's definitely a small-scale prototype. The total cost to run it is about $15 a month including the VM, the domain name, and the Twilio API.
 
-Attempts were made to deploy it to App Engine, which ended up badly because of a 7-second cold start delay and some nasty limits.
+Attempts were made to deploy it to App Engine, which ended up badly because of a 7-second cold start delay and some nasty limitations.
 
 ### Known Issues
 

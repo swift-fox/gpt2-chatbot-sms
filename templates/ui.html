@@ -1,0 +1,129 @@
+<html>
+<head>
+<title>A GPT-2 Chatbot</title>
+<style>
+body {
+    padding: 0;
+    margin: 0;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #313434;
+}
+
+#header {
+    color: white;
+    text-align: center;
+    font-size: 1.75em;
+    background-color: #af7ac5;
+    padding: 0.5em;
+    margin: 0;
+    position: sticky;
+    top: 0;
+}
+
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 0 1em;
+}
+
+#chatbox {
+    overflow: hidden;
+}
+
+#chatbox > li {
+    list-style: none;
+    border-radius: 0.5em;
+    padding: 0.75em;
+    margin: 0.5em 0;
+    clear: both;
+    line-height: 1.25em;
+}
+
+.bot {
+    background-color: #aed6f1;
+    margin-right: 2em !important;
+    float: left;
+}
+
+.person {
+    background-color: #abebc6;
+    margin-left: 2em !important;
+    float: right;
+}
+
+.note {
+    background-color: #a6acaf;
+    color: white;
+}
+
+.note > a {
+    color: white;
+}
+
+.note > a:hover {
+    color: #707b7c;
+}
+
+#inputbox {
+    display: flex;
+    position: sticky;
+    bottom: 0;
+    padding: 0.5em 1em;
+    background-color: white;
+}
+
+#inputbox > input {
+    border: solid #9b59b6 2px;
+    padding: 0.75em;
+    -webkit-appearance: none;
+}
+
+#text {
+    border-radius: 0.5em 0 0 0.5em;
+    width: 100%;
+    outline: none;
+}
+
+#submit {
+    border-radius: 0 0.5em 0.5em 0;
+    width: 4em;
+    background-color:#9b59b6;
+    color: white;
+}
+</style>
+<script>
+function add_to_chatbox(text, is_bot) {
+    const li = document.createElement('li')
+    li.className = is_bot ? 'bot' : 'person'
+    li.innerText = text
+    document.getElementById('chatbox').appendChild(li)
+    li.scrollIntoView()
+}
+
+function send() {
+    const textbox = document.getElementById('text');
+    const text = textbox.value.trim();
+    textbox.value = '';
+    if (!text)
+        return
+
+    add_to_chatbox(text, false);
+
+    fetch("/chat", {method: 'POST', body: text, credentials: 'same-origin'})
+        .then(res => res.text())
+        .then(text => add_to_chatbox(text, true));
+}
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+</head>
+<body>
+<h1 id="header">A GPT-2 Chatbot</h1>
+<ul id="chatbox" class="container">
+<li class="note">Please expect <b>sheer crappiness</b>. If it's lost, refresh the page to start again. And do not believe whatever said by a language model. Check out the code on <a href="https://github.com/swift-fox/gpt2-chatbot-sms" target="_blank">GitHub</a>.</li>
+</ul>
+<form id="inputbox" class="container" onsubmit="event.preventDefault(); send();">
+<input id="text" type="text" style="font-size: 1em;" autocomplete="off" placeholder="say something here..." />
+<input id="submit" type="submit" style="font-size: 1em;" value="Send" />
+</form>
+</body>
+</html>
